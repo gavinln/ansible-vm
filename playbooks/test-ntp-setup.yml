@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: True
+
+  roles:
+    - { role: geerlingguy.ntp, ntp_timezone: "America/Los_Angeles" }
+
+  tasks:
+    - name: display system time
+      command: timedatectl
+      register: time_message
+
+    - debug:
+        msg: "{{ time_message.stdout }}"
+

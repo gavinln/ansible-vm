@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+      become: yes
+
+  roles:
+    - geerlingguy.ntp
+    - angstwad.docker_ubuntu
+
+  tasks:
+    - include: init-setup.yml
+      #    - include: cli-setup.yml
+      #    - include: python-setup.yml
+      #    - include: docker-setup.yml
+      #    - include: docker-image-setup.yml

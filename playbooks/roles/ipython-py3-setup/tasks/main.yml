@@ -1,0 +1,3 @@
+---
+- name: install python3
+  pip: name=ipython state=present

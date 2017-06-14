@@ -1,0 +1,16 @@
+- hosts: all
+  gather_facts: True
+
+  roles:
+    - { role: angstwad.docker_ubuntu }
+
+  tasks:
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+
+
+

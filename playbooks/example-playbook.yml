@@ -1,0 +1,32 @@
+---
+- hosts: "role=ssh"  # match groupname
+  gather_facts: True
+
+  tasks:
+    - debug:
+        msg: "System {{ inventory_hostname }} has uuid {{ ansible_product_uuid }}"
+
+    - debug:
+        msg: "System {{ inventory_hostname }} has gateway {{ ansible_default_ipv4.gateway }}"
+      when: ansible_default_ipv4.gateway is defined
+
+    - name: getting uptime
+      shell: /usr/bin/uptime
+      register: result
+
+    - debug:
+        var: result
+        verbosity: 0
+
+    - debug:
+        var: group_names  # all groups the current host is in
+        verbosity: 0
+
+    - command: echo {{ item }}
+      with_items: [ 0, 2, 4, 6, 8, 10 ]
+      when: item > 5
+      register: loop_result
+
+    - debug:
+        var: loop_result.results[2]
+        verbosity: 0

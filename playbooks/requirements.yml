@@ -1,0 +1,9 @@
+---
+# install ntp to synchronize time
+ - src: geerlingguy.ntp
+
+# install docker on ubuntu
+ - src: angstwad.docker_ubuntu
+
+# role to manage users and groups
+ - src: singleplatform-eng.users

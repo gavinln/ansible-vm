@@ -1,0 +1,6 @@
+---
+- name: install python2
+  apt: name=python state=installed
+
+- name: install python2-pip
+  apt: name=python-pip state=installed

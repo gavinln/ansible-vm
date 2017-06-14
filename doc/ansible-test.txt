@@ -1,0 +1,73 @@
+1. Start up the main virtual machine
+vagrant up
+
+2. Start up the four slave machines
+vagrant up vm1 vm2 vm3 vm4
+
+3. Get the private keys
+vagrant ssh-config
+
+4. Copy all the private keys to files in the root directory named
+copy-private-keys.bat
+
+3. Login to the main VM
+vagrant ssh ansible-vm
+
+4. Change to project root
+cd /vagrant
+
+5. Copy private keys to home directory and change access
+./setup-private-keys.sh
+
+4. Change to the playbooks directory
+cd /vagrant/playbooks
+
+5. List all the hosts
+ansible all -i inventory --list-hosts
+
+6. List groups of hosts
+ansible all -i inventory -l webservers --list-hosts
+ansible all -i inventory -l dbservers --list-hosts
+ansible all -i inventory -l databases --list-hosts
+ansible all -i inventory -l fullstack --list-hosts
+
+6. Set up ssh-agent
+killall ssh-agent
+eval `ssh-agent`
+ssh-add ~/ansible-vm-private_key
+ssh-add ~/vm1-private_key
+ssh-add ~/vm2-private_key
+ssh-add ~/vm3-private_key
+ssh-add ~/vm4-private_key
+
+7. Connect to all hosts
+export ANSIBLE_PY=ansible_python_interpreter=/usr/bin/python3
+export ANSIBLE_HOST_KEY_CHECKING=False
+export ANSIBLE_ROLES_PATH=roles/external
+ansible all -i inventory -m ping -e $ANSIBLE_PY
+
+8. Update all the hosts
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ubuntu-update.yml
+
+ansible-playbook -b -i inventory -e $ANSIBLE_PY install-core.yml
+
+9. To check whether a Ubuntu 16.04 is upgradable
+apt list --upgradable
+
+10. Run the test-playbook.yml
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-playbook.yml
+
+11. Install roles from Ansible Galaxy
+ansible-galaxy install -r requirements.yml -p roles/external
+
+12 List all users in alphabetical order from all files (find duplicates)
+grep -h -F username vars/users-* | sort
+
+13. Manage users - need to do this after groups as users refer to groups
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-user-manage.yml
+
+14. Setup ntp on all machines
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ntp-setup.yml
+
+15. Setup ntp on all machines
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-docker-setup.yml

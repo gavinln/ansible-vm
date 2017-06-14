@@ -1,0 +1,4 @@
+---
+- name: pull busybox image
+  docker_image:
+      name: busybox:1.26.2

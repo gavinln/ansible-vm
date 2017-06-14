@@ -1,0 +1,14 @@
+[webservers]
+
+[dbservers]
+
+[fullstack]
+
+[fullstack:children]
+webservers
+dbservers
+
+[databases]
+
+[databases:children]
+dbservers

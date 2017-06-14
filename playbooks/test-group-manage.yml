@@ -1,0 +1,7 @@
+- hosts: all
+  gather_facts: False
+
+  roles:
+    - role: singleplatform-eng.users
+      tags:
+        - groups

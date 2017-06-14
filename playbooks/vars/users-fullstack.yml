@@ -1,0 +1,7 @@
+
+users:
+  - username: awaters
+    name: Alice Waters
+    uid: 1001
+    ssh_key:
+      - "{{ lookup('file', 'awaters.pub') }}"

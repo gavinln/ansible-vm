@@ -1,0 +1,9 @@
+- hosts: "{{ group }}"
+  gather_facts: False
+  vars_files:
+    - "vars/{{ group }}.yml"
+
+  tasks:
+    - debug:
+        msg: "{{ item.uid }}"
+      with_items: "{{ users }}"

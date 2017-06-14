@@ -1,0 +1,11 @@
+*~
+*.pyc
+*.class
+*.swp
+*.log
+*.retry
+.vagrant
+*private_key
+ansible/playbook.retry
+ansible/roles
+playbooks/roles/external
