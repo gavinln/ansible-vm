@@ -62,7 +62,7 @@ ansible-galaxy install -r requirements.yml -p roles/external
 grep -h -F username vars/users-* | sort
 
 13 Save public key
-copy ~/.ssh/authorized_keys /vagrant/playbooks/files/awaters.pub
+cp ~/.ssh/authorized_keys /vagrant/playbooks/files/awaters.pub
 
 14. Manage users - need to do this after groups as users refer to groups
 ./manage-users.sh

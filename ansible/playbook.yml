@@ -17,7 +17,7 @@
 
   tasks:
     - include: init-setup.yml
+    - include: docker-setup.yml
+      #    - include: docker-image-setup.yml
       #    - include: cli-setup.yml
       #    - include: python-setup.yml
-      #    - include: docker-setup.yml
-      #    - include: docker-image-setup.yml
