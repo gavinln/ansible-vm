@@ -1,13 +1,13 @@
 # ansible-docker-vm
 
-* Source code - [Github][10]
+* Source code - Github
 * Author - Gavin Noronha - <gavinln@hotmail.com>
 
 [10]: https://github.com/gavinln/ansible-docker-vm
 
 ## About
 
-This project provides a [Ubuntu (14.04)][20] [Vagrant][30] Virtual Machine
+This project provides a [Ubuntu (16.04)][20] [Vagrant][30] Virtual Machine
 (VM) with [Docker][40] installed using [Ansible][50].
 
 [20]: http://releases.ubuntu.com/14.04/
@@ -20,7 +20,7 @@ This project provides a [Ubuntu (14.04)][20] [Vagrant][30] Virtual Machine
 1. Change to the root of the project
 
     ```
-    cd ansible-docker-vm
+    cd ansible-vm
     ```
 
 2. To start the virtual machine(VM) type
@@ -32,7 +32,7 @@ This project provides a [Ubuntu (14.04)][20] [Vagrant][30] Virtual Machine
 3. Connect to the VM
 
     ```
-    vagrant ssh
+    vagrant ssh ansible-vm
     ```
 
 ## Using Docker images

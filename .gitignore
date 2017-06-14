@@ -9,3 +9,4 @@
 ansible/playbook.retry
 ansible/roles
 playbooks/roles/external
+playbooks/roles/files/awaters.pub
