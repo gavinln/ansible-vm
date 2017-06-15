@@ -1,0 +1,23 @@
+1. Start the ansible-vm
+vagrant up ansible-vm
+
+2. Login to the VM
+vagrant ssh ansible-vm
+
+3. Change to the Docker directory
+cd /vagrant/docker
+
+4. Get the Docker container for Python
+docker pull python:3.6.1-onbuild
+
+5. Start the container and run Python3
+docker run -it --rm python:3.6.1-onbuild
+
+6. Start the container and run bash
+docker run -it --rm python:3.6.1-onbuild bash
+
+7. Build the container
+docker build -t flask-sample1 .
+
+9. Run the container
+docker run -it --rm -p 192.168.33.10:8080:5000 flask-sample1
