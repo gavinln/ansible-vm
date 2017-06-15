@@ -1,10 +1,13 @@
 1. Start up the main virtual machine
-vagrant up
+vagrant up ansible-vm
 
 2. Start up the four slave machines
-vagrant up vm1 vm2 vm3 vm4
+vagrant up vm1
+vagrant up vm2
+vagrant up vm3
+vagrant up vm4
 
-3. Get the private keys
+3. Display the private keys
 vagrant ssh-config
 
 4. Copy all the private keys to files in the root directory named
