@@ -6,6 +6,7 @@
 *.retry
 .vagrant
 *private_key
+do_not_checkin/
 ansible/playbook.retry
 ansible/roles
 playbooks/roles/external

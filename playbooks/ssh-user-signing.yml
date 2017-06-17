@@ -4,7 +4,7 @@
   gather_facts: False
 
   vars:
-      ca_user_private_key: /vagrant/user_ca
+      ca_user_private_key: /vagrant/do_not_checkin/user_ca
       certificate_identity: user_ubuntu
       principals:
         - ubuntu

@@ -4,9 +4,9 @@
   gather_facts: False
 
   vars:
-      ca_server_private_key: /vagrant/server_ca
+      ca_server_private_key: /vagrant/do_not_checkin/server_ca
       certificate_identity: host_sshserver
-      principals:
+      principals:  # not used
         - vm1.localdomain
         - vm2.localdomain
         - vm3.localdomain
@@ -28,11 +28,7 @@
     - set_fact:
         principals: "{{ principals | join(',') }}"
 
-
   tasks:
-    # - debug:
-    #     msg: "{{ principals | join(',') }}"
-
     - name: fetch the ssh server public key
       fetch:
         src: /etc/ssh/ssh_host_rsa_key.pub

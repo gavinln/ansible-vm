@@ -3,7 +3,7 @@
   gather_facts: False
 
   vars:
-      ca_user_public_key: /vagrant/user_ca.pub
+      ca_user_public_key: /vagrant/do_not_checkin/user_ca.pub
 
   pre_tasks:
     - name: check if local user public key exists
