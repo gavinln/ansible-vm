@@ -1,0 +1,46 @@
+# setup the host certificate for ssh servers
+# server-private-key
+- hosts: all
+  gather_facts: False
+
+  vars:
+      ca_user_private_key: /vagrant/user_ca
+      certificate_identity: user_ubuntu
+      principals:
+        - ubuntu
+      certificate_time: "+52w"   # 52 weeks
+
+  pre_tasks:
+    - name: check if local user private key exists
+      local_action: stat path={{ ca_user_private_key }}
+      register: user_key_status
+      run_once: true
+
+    - name: File does not exist
+      fail:
+        msg: "ca_user_private_key: {{ ca_user_private_key }} does not exist "
+      when: user_key_status.stat.exists == false
+      run_once: true
+
+    - set_fact:
+        principals: "{{ principals | join(',') }}"
+
+  tasks:
+    - name: fetch the user public key
+      fetch:
+        src: /home/ubuntu/.ssh/id_rsa.pub
+        dest: ssh-user/user-{{ inventory_hostname }}.pub
+        flat: yes
+        fail_on_missing: yes
+
+    - name: sign the ssh user public key
+      local_action: >
+        command ssh-keygen -s {{ ca_user_private_key }}
+        -I {{ certificate_identity }}
+        -n {{ principals }} -V {{ certificate_time }}
+        ssh-user/user-{{ inventory_hostname }}.pub
+
+    - name: copy the signed public keys back
+      copy:
+        src: ssh-user/user-{{ inventory_hostname }}-cert.pub
+        dest: /home/ubuntu/.ssh/id_rsa-cert.pub

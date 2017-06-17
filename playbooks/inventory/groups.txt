@@ -2,9 +2,9 @@
 
 [dbservers]
 
-[fullstack]
+[all-servers]
 
-[fullstack:children]
+[all-servers:children]
 webservers
 dbservers
 

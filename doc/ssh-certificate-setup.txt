@@ -1,0 +1,119 @@
+Make sure the hostmanager plugin is installed on Vagrant
+https://github.com/devopsgroup-io/vagrant-hostmanager
+
+Setup server and user certificates
+1. Start up the main virtual machine
+vagrant up ansible-vm
+
+2. Start up the four slave machines
+vagrant up vm1
+vagrant up vm2
+vagrant up vm3
+vagrant up vm4
+
+3. Copy all the private keys to files in the root directory named
+copy-private-keys.bat
+
+4. Login to the ansible master and certificate authority
+vagrant ssh ansible-vm
+
+5. Change to project root
+cd /vagrant
+
+6. Copy private keys to home directory and change access
+./setup-private-keys.sh
+
+7. Setup ssh-agent
+killall ssh-agent
+eval `ssh-agent`
+ssh-add ~/ansible-vm-private_key
+ssh-add ~/vm1-private_key
+ssh-add ~/vm2-private_key
+ssh-add ~/vm3-private_key
+ssh-add ~/vm4-private_key
+
+7. Change to project root directory
+cd /vagrant
+
+7. Create keys called server_ca and server_ca.pub
+ssh-keygen -f server_ca
+
+5. Sign the keys of the certificate authority server for 52 weeks
+sudo ssh-keygen -s server_ca -I host_auth_server -h -n *.localdomain -V +52w /etc/ssh/ssh_host_rsa_key.pub
+
+6. The signed certificate called ssh_host_rsa_key-cert.pub is created
+ls -l /etc/ssh/ssh_host_rsa_key-cert.pub
+
+7. Change to the playbooks directory
+cd /vagrant/playbooks
+
+8. List groups of hosts
+ansible all-servers -i inventory --list-hosts
+
+9. Connect to all hosts
+export ANSIBLE_PY=ansible_python_interpreter=/usr/bin/python3
+export ANSIBLE_HOST_KEY_CHECKING=False
+export ANSIBLE_ROLES_PATH=roles/external
+ansible all-servers -i inventory -m ping -e $ANSIBLE_PY
+
+10. Run playbook to sign server key
+ansible-playbook -b -i inventory -e $ANSIBLE_PY ssh-host-certificate.yml
+
+Setup the certificate authority's public key - (not automated)
+1. Get the server public key from the certificate authority
+PUBLIC_CERT=$(cat /vagrant/server_ca.pub)
+
+2. Copy the certificate authority public key to the client
+ssh vm4 -- "echo @cert-authority *.localdomain $PUBLIC_CERT >> ~/.ssh/known_hosts"
+
+3. Login to the client machine
+ssh vm4
+
+4. Now when logging in you wil not get the message saying the authenticity
+cannot be established but you will not be able to log in to the system. You
+will still need a password
+ssh vm1.localdomain
+
+Setup user certificates
+1. Change to project root directory
+cd /vagrant
+
+2. Create keys called user_ca and user_ca.pub
+ssh-keygen -f user_ca
+
+3. Run playbook to setup user certificate on server
+ansible-playbook -b -i inventory -e $ANSIBLE_PY ssh-user-certificate.yml
+
+Create private/public keys on ssh client
+1. Login to the client machine
+ssh vm4
+
+2. Generate the public and private keys
+ssh-keygen
+
+3. Exit the client machine
+exit
+
+Sign the user public keys
+1. Login to the certificate authority
+vagrant ssh ansible-vm
+
+2. Sign the user public key
+ansible-playbook -b -i inventory -l vm4.localdomain -e $ANSIBLE_PY ssh-user-signing.yml
+
+3. Sign the user certificate
+ssh-keygen -s users_ca -I user_vagrant -n vagrant -V +52w id_rsa.pub
+
+4. Copy the signed user certificate from the certificate authority server
+scp id_rsa-cert.pub vagrant@192.168.33.30:~/.ssh/
+
+5. Logout of the certificate authority
+exit
+
+6. Login to the client machine
+vagrant ssh client-vm
+
+7. Try logging in to the ssh server and it will succeed
+ssh vagrant@sshserver.example.com
+
+

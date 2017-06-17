@@ -1,7 +1,9 @@
 [webservers]
-192.168.33.21
-192.168.33.22
+vm1.localdomain
+vm2.localdomain
 
 [dbservers]
-192.168.33.23
-192.168.33.24
+vm3.localdomain
+
+[clients]
+vm4.localdomain

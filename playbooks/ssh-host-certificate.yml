@@ -1,0 +1,60 @@
+# setup the host certificate for ssh servers
+# server-private-key
+- hosts: all
+  gather_facts: False
+
+  vars:
+      ca_server_private_key: /vagrant/server_ca
+      certificate_identity: host_sshserver
+      principals:
+        - vm1.localdomain
+        - vm2.localdomain
+        - vm3.localdomain
+        - vm4.localdomain
+      certificate_time: "+52w"   # 52 weeks
+
+  pre_tasks:
+    - name: check if local server private key exists
+      local_action: stat path={{ ca_server_private_key }}
+      register: server_key_status
+      run_once: true
+
+    - name: File does not exist
+      fail:
+        msg: "ca_server_private_key: {{ ca_server_private_key }} does not exist "
+      when: server_key_status.stat.exists == false
+      run_once: true
+
+    - set_fact:
+        principals: "{{ principals | join(',') }}"
+
+
+  tasks:
+    # - debug:
+    #     msg: "{{ principals | join(',') }}"
+
+    - name: fetch the ssh server public key
+      fetch:
+        src: /etc/ssh/ssh_host_rsa_key.pub
+        dest: ssh-server/host-{{ inventory_hostname }}.pub
+        flat: yes
+
+    - name: sign the ssh server public key
+      local_action: >
+        command ssh-keygen -s {{ ca_server_private_key }}
+        -I {{ certificate_identity }}
+        -h -n {{ inventory_hostname }} -V {{ certificate_time }}
+        ssh-server/host-{{ inventory_hostname }}.pub
+
+    - name: copy the signed public keys back
+      copy:
+        src: ssh-server/host-{{ inventory_hostname }}-cert.pub
+        dest: /etc/ssh/ssh_host_rsa_key-cert.pub
+
+    - name: setup host certificate in sshd configuration
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        line: "HostCertificate /etc/ssh/ssh_host_rsa_key-cert.pub"
+
+    - name: restart sshd
+      service: name=sshd state=restarted

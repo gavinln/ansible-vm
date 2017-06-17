@@ -6,6 +6,12 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = false
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -17,7 +23,7 @@ Vagrant.configure("2") do |config|
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  config.vm.box_check_update = false
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
@@ -90,6 +96,9 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "vm1", autostart: false do |machine|
+    machine.vm.hostname = "vm1"
+    machine.hostmanager.aliases = %w(vm1.localdomain)
+
     machine.vm.provider "virtualbox" do |vb|
       # vb.gui = true
       vb.memory = "1024"
@@ -101,14 +110,15 @@ Vagrant.configure("2") do |config|
         vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
       end
     end
-
-    machine.vm.hostname = "vm1"
     machine.vm.network "private_network", ip: "192.168.33.21"
     # do not need guest additions as will not share files
     machine.vbguest.auto_update = false
   end
 
   config.vm.define "vm2", autostart: false do |machine|
+    machine.vm.hostname = "vm2"
+    machine.hostmanager.aliases = %w(vm2.localdomain)
+
     machine.vm.provider "virtualbox" do |vb|
       # vb.gui = true
       vb.memory = "1024"
@@ -121,13 +131,15 @@ Vagrant.configure("2") do |config|
       end
     end
 
-    machine.vm.hostname = "vm2"
     machine.vm.network "private_network", ip: "192.168.33.22"
     # do not need guest additions as will not share files
     machine.vbguest.auto_update = false
   end
 
   config.vm.define "vm3", autostart: false do |machine|
+    machine.vm.hostname = "vm3"
+    machine.hostmanager.aliases = %w(vm3.localdomain)
+
     machine.vm.provider "virtualbox" do |vb|
       # vb.gui = true
       vb.memory = "1024"
@@ -140,13 +152,15 @@ Vagrant.configure("2") do |config|
       end
     end
 
-    machine.vm.hostname = "vm3"
     machine.vm.network "private_network", ip: "192.168.33.23"
     # do not need guest additions as will not share files
     machine.vbguest.auto_update = false
   end
 
   config.vm.define "vm4", autostart: false do |machine|
+    machine.vm.hostname = "vm4"
+    machine.hostmanager.aliases = %w(vm4.localdomain)
+
     machine.vm.provider "virtualbox" do |vb|
       # vb.gui = true
       vb.memory = "1024"
@@ -159,7 +173,6 @@ Vagrant.configure("2") do |config|
       end
     end
 
-    machine.vm.hostname = "vm4"
     machine.vm.network "private_network", ip: "192.168.33.24"
     # do not need guest additions as will not share files
     machine.vbguest.auto_update = false

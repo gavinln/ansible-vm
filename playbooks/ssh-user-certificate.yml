@@ -1,0 +1,33 @@
+# setup the user certificate for ssh servers
+- hosts: all
+  gather_facts: False
+
+  vars:
+      ca_user_public_key: /vagrant/user_ca.pub
+
+  pre_tasks:
+    - name: check if local user public key exists
+      local_action: stat path={{ ca_user_public_key }}
+      register: user_key_status
+      run_once: true
+
+    - name: File does not exist
+      fail:
+        msg: "ca_user_public_key: {{ ca_user_public_key }} does not exist "
+      when: user_key_status.stat.exists == false
+      run_once: true
+
+
+  tasks:
+    - name: copy the certificate authority public key to the server
+      copy:
+        src: "{{ ca_user_public_key }}"
+        dest: /etc/ssh
+
+    - name: setup user certificate in sshd configuration
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        line: "TrustedUserCAKeys /etc/ssh/user_ca.pub"
+
+    - name: restart sshd
+      service: name=sshd state=restarted
