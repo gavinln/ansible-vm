@@ -1,14 +1,16 @@
 # ansible-docker-vm
 
-* Source code - Github
+* Source code - [Bitbucket]
 * Author - Gavin Noronha - <gavinln@hotmail.com>
 
-[10]: https://github.com/gavinln/ansible-docker-vm
+[10]: https://bitbucket.org/gavinln/ansible-vm
 
 ## About
 
 This project provides a [Ubuntu (16.04)][20] [Vagrant][30] Virtual Machine
-(VM) with [Docker][40] installed using [Ansible][50].
+(VM) with [Docker][40] installed using [Ansible][50]. It has multiple examples
+of using Ansible to setup machines and also setup ssh certificates for
+authentication.
 
 [20]: http://releases.ubuntu.com/14.04/
 [30]: http://www.vagrantup.com/
