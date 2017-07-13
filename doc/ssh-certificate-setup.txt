@@ -1,6 +1,3 @@
-Make sure the hostmanager plugin is installed on Vagrant
-https://github.com/devopsgroup-io/vagrant-hostmanager
-
 Setup server and user certificates
 1. Start up the main virtual machine
 vagrant up ansible-vm

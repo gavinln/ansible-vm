@@ -19,6 +19,9 @@ authentication.
 
 ## Running the VM
 
+Make sure the hostmanager plugin is installed on Vagrant
+https://github.com/devopsgroup-io/vagrant-hostmanager
+
 1. Change to the root of the project
 
     ```
@@ -35,20 +38,6 @@ authentication.
 
     ```
     vagrant ssh ansible-vm
-    ```
-
-## Using Docker images
-
-1. Display docker images
-
-    ```
-    sudo docker images
-    ```
-
-2. Run a Docker image
-
-    ```
-    sudo docker run -ti --rm busybox:1.26.2
     ```
 
 ## Requirements

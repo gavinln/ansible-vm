@@ -1,3 +1,4 @@
+Manage users
 1. Start up the main virtual machine
 vagrant up ansible-vm
 
@@ -32,7 +33,7 @@ ansible all -i inventory --list-hosts
 ansible all -i inventory -l webservers --list-hosts
 ansible all -i inventory -l dbservers --list-hosts
 ansible all -i inventory -l databases --list-hosts
-ansible all -i inventory -l fullstack --list-hosts
+ansible all -i inventory -l all-servers --list-hosts
 
 6. Set up ssh-agent
 killall ssh-agent
@@ -49,17 +50,14 @@ export ANSIBLE_HOST_KEY_CHECKING=False
 export ANSIBLE_ROLES_PATH=roles/external
 ansible all -i inventory -m ping -e $ANSIBLE_PY
 
-8. Update all the hosts
+8. Update all the hosts (will display unreachable on last step)
 ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ubuntu-update.yml
-
-9. To check whether a Ubuntu 16.04 is upgradable
-apt list --upgradable
-
-10. Run the test-playbook.yml
-ansible-playbook -b -i inventory -e $ANSIBLE_PY test-playbook.yml
 
 11. Install roles from Ansible Galaxy
 ansible-galaxy install -r requirements.yml -p roles/external
+
+
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-playbook.yml
 
 12 List all users in alphabetical order from all files (find duplicates)
 grep -h -F username vars/users-* | sort
@@ -75,3 +73,8 @@ ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ntp-setup.yml
 
 15. Setup ntp on all machines
 ansible-playbook -b -i inventory -e $ANSIBLE_PY test-docker-setup.yml
+
+
+10. Run the test-playbook.yml
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-playbook.yml
+

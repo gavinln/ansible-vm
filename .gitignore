@@ -12,4 +12,5 @@ ansible/roles
 playbooks/roles/external
 playbooks/ssh-server/
 playbooks/ssh-user/
+playbooks/files/awaters.pub
 
