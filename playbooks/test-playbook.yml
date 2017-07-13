@@ -1,9 +1,16 @@
 - hosts: all
   gather_facts: False
-  vars_files:
-    - "vars/users-databases.yml"
+  vars:
+    users:
+      alice:
+        name: Alice
+      bob:
+        name: Bob
+      carol
+        name: Carol
+
 
   tasks:
     - debug:
-        msg: "{{ item.uid }}"
+        msg: '{{ item }}'
       with_items: "{{ users }}"

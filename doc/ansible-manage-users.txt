@@ -53,28 +53,26 @@ ansible all -i inventory -m ping -e $ANSIBLE_PY
 8. Update all the hosts (will display unreachable on last step)
 ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ubuntu-update.yml
 
-11. Install roles from Ansible Galaxy
+9. Install roles from Ansible Galaxy
 ansible-galaxy install -r requirements.yml -p roles/external
 
+10. Setup ntp on all machines
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ntp-setup.yml
 
-ansible-playbook -b -i inventory -e $ANSIBLE_PY test-playbook.yml
+11. Setup docker on all machines
+ansible-playbook -b -i inventory -e $ANSIBLE_PY test-docker-setup.yml
 
-12 List all users in alphabetical order from all files (find duplicates)
-grep -h -F username vars/users-* | sort
-
-13 Save public key
+12. Save public key
 cp ~/.ssh/authorized_keys /vagrant/playbooks/files/awaters.pub
+
+13. Display users for only one host
+ansible-playbook -b -i inventory -e $ANSIBLE_PY -l vm1.local domain test-playbook.yml
+
+14 List all users in alphabetical order from all files (find duplicates)
+grep -h -F username vars/users-* | sort
 
 14. Manage users - need to do this after groups as users refer to groups
 ./manage-users.sh
 
-14. Setup ntp on all machines
-ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ntp-setup.yml
 
-15. Setup ntp on all machines
-ansible-playbook -b -i inventory -e $ANSIBLE_PY test-docker-setup.yml
-
-
-10. Run the test-playbook.yml
-ansible-playbook -b -i inventory -e $ANSIBLE_PY test-playbook.yml
 

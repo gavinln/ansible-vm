@@ -3,3 +3,10 @@
 
   roles:
     - role: singleplatform-eng.users
+      with_file:
+        - ckane.yml
+
+  tasks:
+    - debug:
+        msg: ''
+      with_items: "{{ users }}"
