@@ -44,10 +44,12 @@ ssh-add ~/vm2-private_key
 ssh-add ~/vm3-private_key
 ssh-add ~/vm4-private_key
 
-7. Connect to all hosts
+7. Setup environment variables for ansible
 export ANSIBLE_PY=ansible_python_interpreter=/usr/bin/python3
 export ANSIBLE_HOST_KEY_CHECKING=False
 export ANSIBLE_ROLES_PATH=roles/external
+
+7. Connect to all hosts
 ansible all -i inventory -m ping -e $ANSIBLE_PY
 
 8. Update all the hosts (will display unreachable on last step)
@@ -66,7 +68,7 @@ ansible-playbook -b -i inventory -e $ANSIBLE_PY test-docker-setup.yml
 cp ~/.ssh/authorized_keys /vagrant/playbooks/files/awaters.pub
 
 13. Display users for only one host
-ansible-playbook -b -i inventory -e $ANSIBLE_PY -l vm1.local domain test-playbook.yml
+ansible-playbook -b -i inventory -e $ANSIBLE_PY -l dbservers test-playbook.yml
 
 14 List all users in alphabetical order from all files (find duplicates)
 grep -h -F username vars/users-* | sort

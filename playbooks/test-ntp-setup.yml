@@ -1,5 +1,7 @@
 - hosts: all
   gather_facts: True
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
 
   roles:
     - { role: geerlingguy.ntp, ntp_timezone: "America/Los_Angeles" }

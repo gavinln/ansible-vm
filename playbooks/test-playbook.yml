@@ -1,16 +1,72 @@
-- hosts: all
+- hosts: "{{ host_group }}"
   gather_facts: False
   vars:
-    users:
-      alice:
-        name: Alice
-      bob:
-        name: Bob
-      carol
-        name: Carol
-
+    selected_user_group: "{{ user_group }}"
+    ansible_python_interpreter: /usr/bin/python3
+    users_default_shell: /bin/bash
+    users_create_per_user_group: false
+    users_create_homedirs: true
+    fruits:
+      apple:
+        - username: apple
+          name: Apple
+          uid: 1001
+      blueberry:
+        - username: blueberry
+          name: Blueberry
+          uid: 1002
+      cantaloupe:
+        - username: cantaloupe
+          name: Cantaloupe
+          uid: 1003
+      strawberry:
+        - username: strawberry
+          name: Strawberry
+          uid: 1004
+      watermelon:
+        - username: watermelon
+          name: Watermelon
+          uid: 1004
+    group_list:
+      - name: berries
+        members:
+          - blueberry
+          - strawberry
+      - name: melons
+        members:
+          - cantaloupe
+          - watermelon
 
   tasks:
+    - set_fact:
+        users: []
+
+    - name: Setup users
+      set_fact:
+        users: "{{ users + [ fruits[item.1].0 ]  }}"
+      with_subelements:
+        - "{{ group_list }}"
+        - members
+      when: "item.0.name == selected_user_group"
+
     - debug:
-        msg: '{{ item }}'
-      with_items: "{{ users }}"
+        var: users
+
+    - set_fact:
+        users_group: users
+
+    - name: User creation
+      user:
+        name: "{{item.username}}"
+        group: "{{item.group | default(item.username if users_create_per_user_group else users_group)}}"
+        # empty string removes user from all secondary groups
+        groups: "{{item.groups | join(',') if 'groups' in item else ''}}"
+        shell: "{{item.shell if item.shell is defined else users_default_shell}}"
+        password: "{{item.password if item.password is defined else '!'}}"
+        comment: "{{item.name if item.name is defined else ''}}"
+        uid: "{{item.uid | default(omit)}}"
+        home: "{{ item.home | default('/home/' + item.username) }}"
+        createhome: "{{'yes' if users_create_homedirs else 'no'}}"
+        generate_ssh_key: "{{ item.generate_ssh_key | default(omit) }}"
+        update_password: "{{item.update_password | default(omit)}}"
+      with_items: "{{users}}"
