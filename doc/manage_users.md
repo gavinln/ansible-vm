@@ -33,10 +33,10 @@
     vagrant ssh ansible-vm
     ```
 
-4. Change to project root
+4. Change to the playbooks directory
 
     ```
-    cd /vagrant
+    cd /vagrant/playbooks
     ```
 
 5. Copy private keys to home directory and change access
@@ -45,13 +45,7 @@
     ./setup-private-keys.sh
     ```
 
-4. Change to the playbooks directory
-
-    ```
-    cd /vagrant/playbooks
-    ```
-
-5. List all the hosts
+6. List all the hosts
 
     ```
     ansible all -i inventory --list-hosts
@@ -95,7 +89,7 @@
 8. Update all the hosts (will display unreachable on last step)
 
     ```
-    ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ubuntu-update.yml
+    ansible-playbook -b -i inventory test-ubuntu-update.yml -e $ANSIBLE_PY
     ```
 
 9. Install roles from Ansible Galaxy
@@ -107,34 +101,30 @@
 10. Setup ntp on all machines
 
     ```
-    ansible-playbook -b -i inventory -e $ANSIBLE_PY test-ntp-setup.yml
+    ansible-playbook -b -i inventory test-ntp-setup.yml -e $ANSIBLE_PY
     ```
 
 11. Setup docker on all machines
 
     ```
-    ansible-playbook -b -i inventory -e $ANSIBLE_PY test-docker-setup.yml
+    ansible-playbook -b -i inventory test-docker-setup.yml -e $ANSIBLE_PY
     ```
 
-12. Save public key
+12. Create ssh keys for all users
 
     ```
-    cp ~/.ssh/authorized_keys /vagrant/playbooks/files/awaters.pub
+    ./create-ssh-keys.sh
     ```
 
-13. Display users for only one host
+13. Run in dry-run (check) mode only for dbservers. Will print err message
+    (Either user must exist or you must...)
 
     ```
-    ansible-playbook -b -i inventory -e $ANSIBLE_PY -l dbservers test-playbook.yml
+    ansible-playbook -b -i inventory -C create-user-group.yml \
+        -e host_group=dbservers -e user_group=berries -e $ANSIBLE_PY
     ```
 
-14 List all users in alphabetical order from all files (find duplicates)
-
-    ```
-    grep -h -F username vars/users-* | sort
-    ```
-
-14. Manage users - need to do this after groups as users refer to groups
+14. Create selected groups of users on selected hosts
 
     ```
     ./manage-users.sh

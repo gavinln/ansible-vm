@@ -9,6 +9,6 @@ vm4-private_key"
 for f in $FILES
 do
     echo "Processing $f"
-    cp $f ~
+    cp /vagrant/$f ~
     chmod 600 ~/$f
 done

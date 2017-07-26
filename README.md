@@ -42,6 +42,12 @@ https://github.com/devopsgroup-io/vagrant-hostmanager
 
 ## [Manage users](doc/manage_users.md)
 
+## Links
+
+ * Manage [users][190] with Ansible
+
+[190]: https://galaxy.ansible.com/singleplatform-eng/users/
+
 ## Requirements
 
 The following software is needed to get the software from github and run

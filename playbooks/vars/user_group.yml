@@ -1,0 +1,36 @@
+---
+fruits:
+  apple:
+    username: apple
+    name: Apple
+    uid: 1001
+  blueberry:
+    username: blueberry
+    name: Blueberry
+    uid: 1002
+    ssh_key: "{{ lookup('file', 'blueberry-key.pub') }}"
+  cantaloupe:
+    username: cantaloupe
+    name: Cantaloupe
+    uid: 1003
+    ssh_key: "{{ lookup('file', 'cantaloupe-key.pub') }}"
+  strawberry:
+    username: strawberry
+    name: Strawberry
+    uid: 1004
+    ssh_key: "{{ lookup('file', 'strawberry-key.pub') }}"
+  watermelon:
+    username: watermelon
+    name: Watermelon
+    uid: 1004
+    ssh_key: "{{ lookup('file', 'watermelon-key.pub') }}"
+
+group_list:
+  - name: berries
+    members:
+      - blueberry
+      - strawberry
+  - name: melons
+    members:
+      - cantaloupe
+      - watermelon

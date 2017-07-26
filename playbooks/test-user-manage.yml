@@ -1,7 +1,0 @@
-- hosts: "{{ group }}"
-  gather_facts: False
-  vars_files:
-    - "vars/users-{{ group }}.yml"
-
-  roles:
-    - role: singleplatform-eng.users
