@@ -40,6 +40,8 @@ https://github.com/devopsgroup-io/vagrant-hostmanager
     vagrant ssh ansible-vm
     ```
 
+## [Manage users](doc/manage_users.md)
+
 ## Requirements
 
 The following software is needed to get the software from github and run

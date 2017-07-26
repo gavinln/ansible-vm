@@ -1,4 +1,5 @@
-Manage users
+## Manage users
+
 1. Start up the main virtual machine
 vagrant up ansible-vm
 
