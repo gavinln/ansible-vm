@@ -1,9 +1,9 @@
-# ansible-docker-vm
+# ansible-vm
 
 * Source code - [Bitbucket]
 * Author - Gavin Noronha - <gavinln@hotmail.com>
 
-[10]: https://bitbucket.org/gavinln/ansible-vm
+[10]: https://github.com/gavinln/ansible-vm
 
 ## About
 
