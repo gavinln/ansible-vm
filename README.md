@@ -1,6 +1,6 @@
 # ansible-vm
 
-* Source code - [Bitbucket]
+* Source code - [Github][10]
 * Author - Gavin Noronha - <gavinln@hotmail.com>
 
 [10]: https://github.com/gavinln/ansible-vm
