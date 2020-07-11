@@ -112,7 +112,7 @@ Vagrant.configure("2") do |config|
     end
     machine.vm.network "private_network", ip: "192.168.33.21"
     # do not need guest additions as will not share files
-    machine.vbguest.auto_update = false
+    # machine.vbguest.auto_update = false
   end
 
   config.vm.define "vm2", autostart: false do |machine|
@@ -133,7 +133,7 @@ Vagrant.configure("2") do |config|
 
     machine.vm.network "private_network", ip: "192.168.33.22"
     # do not need guest additions as will not share files
-    machine.vbguest.auto_update = false
+    # machine.vbguest.auto_update = false
   end
 
   config.vm.define "vm3", autostart: false do |machine|
@@ -154,7 +154,7 @@ Vagrant.configure("2") do |config|
 
     machine.vm.network "private_network", ip: "192.168.33.23"
     # do not need guest additions as will not share files
-    machine.vbguest.auto_update = false
+    # machine.vbguest.auto_update = false
   end
 
   config.vm.define "vm4", autostart: false do |machine|
@@ -175,7 +175,7 @@ Vagrant.configure("2") do |config|
 
     machine.vm.network "private_network", ip: "192.168.33.24"
     # do not need guest additions as will not share files
-    machine.vbguest.auto_update = false
+    # machine.vbguest.auto_update = false
   end
 
   # View the documentation for the provider you are using for more
